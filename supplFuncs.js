@@ -70,7 +70,6 @@ const supplFuncs = {
 
         // Base case: single node, specified as `head`, with `next` of null
         if (inputLinkedList.head.next === null) {
-            //console.log('reached the end, I guess.');
             // simply return this single node: it's the whole list for now.
             return inputLinkedList;
         } else {
@@ -121,12 +120,8 @@ const supplFuncs = {
 
         // Otherwise, start ticking through list items
         let currNode = inputLinkedList.head;
-        // tracking previously-visited item
-        let previousNode = inputLinkedList.head;
 
         while ( (currNode !== null) && (currNode.next.next.next !== null) ) {
-            // Save previous node
-            previousNode = currNode;
             // Advance current node
             currNode = currNode.next;
         }
@@ -160,7 +155,7 @@ const supplFuncs = {
     cycleCheck(inputLinkedList) {
 
         if (inputLinkedList.head === null) {
-            console.log('List is empty, cannot check for a cycle.');
+            return 'List is empty, cannot check for a cycle.';
         }
 
         let currNode = inputLinkedList.head;
@@ -181,48 +176,63 @@ const supplFuncs = {
 
     sortList(inputLinkedList) {
 
-        // initialize output list as totally new linkedList
-        let outputList = new linkedList();
-
         if (inputLinkedList.head === null) {
-            console.log('List is empty, cannot add new item before anything.')
-        }
-        
-        // start outputList with first element in un-sorted input list
-        outputList.insertLast(inputLinkedList.head.value);
-
-        // Otherwise, start ticking through input list items, starting with second item
-        let currNode = inputLinkedList.head.next;
-        //let previousNode = inputLinkedList.head;
-
-        while ( (currNode) ) {
-
-            // pull out the value of the current item in input list
-            const currValue = currNode.value;
-            console.log(`Value of input list currently trying to find a home for is ${currValue}`);
-
-            // now need to iterate through items in output list
-            let currTargetNode = outputList.head;
-            console.log(`currTargetNode is ${currTargetNode.value}`)
-
-            while ( (currTargetNode !== null) && (currTargetNode.value < currValue) ) {
-                console.log(`In while loop now - currTargetNode is ${currTargetNode.value}`);
-                currTargetNode = currTargetNode.next
-            }
-            if (currTargetNode.value >= currValue) {
-                outputList.insertBefore(currTargetNode.value, currValue)
-                //outputList.insertLast(currValue);
-                break;
-            }
-
-            // Advance to next node in input list
-            currNode = currNode.next;
+            return 'List has no elements and so cannot be sorted.';
+        } else if (inputLinkedList.head.next === null) {
+            return 'List has a single element and so cannot be sorted.';
         }
 
-        return outputList;
+        // initialize new linkedList to populate
+        let output = new linkedList();
 
+        // identify the first node in the input list
+        let currInpNode = inputLinkedList.head;
+
+        // make the first node from input list the head of the output list (for now)
+        output.insertFirst(currInpNode.value);
+
+        // tick up currInpNode to second element in input list
+        currInpNode = currInpNode.next;
+
+        // want to cycle through all elements in input list
+        while (currInpNode) {
+            const newValueToAdd = currInpNode.value;
+
+            // check newValueToAdd against all elements in current output list
+            let currOutNode = output.head;
+            while (currOutNode) {
+                // if the new value to add is less than the "currently" considered output list value,
+                if (currOutNode.value > newValueToAdd) {
+                    // insert that "new value" *before* currently-considered output value
+                    output.insertBefore(currOutNode.value, newValueToAdd);
+                    // have successfully integrated this input value, 
+                    // so can stop comparing to output list elements and advance to next input list value
+                    break;
+                } else if (currOutNode.value < newValueToAdd && currOutNode.next) {
+                    // if new value is greater than the "current" output list value,
+                    // advance to the next output list value
+                    currOutNode = currOutNode.next;
+                } else if (currOutNode.next === null) {
+                    // if there is no next output list - we've reached the end,
+                    // and the new value is greater than any values in current output list.
+                    // So, can insert new value at the end, 
+                    output.insertLast(newValueToAdd);
+                    // and break out to advance to next input value.
+                    break;
+                }
+            }
+
+            // as long as there is a next input value to consider,
+            if (currInpNode.next) {
+                // advance along
+                currInpNode = currInpNode.next
+            } else if (currInpNode.next === null) {
+                // but if there isn't, and we've considered every input value,
+                // ready to return the (hopefully sorted) output list
+                return output;
+            }   
+        }
     }
-
 }
 
 module.exports = supplFuncs;

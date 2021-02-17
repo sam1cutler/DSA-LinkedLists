@@ -40,9 +40,16 @@ class linkedList {
 
     // insert before...
     insertBefore(targetItem, newItem) {
+        // Check if list is empty
         if (this.head === null) {
             console.log('List is empty, cannot add new item before anything.')
         } 
+
+        // Check if target item is the list's head
+        if (this.head.value === targetItem) {
+            this.head = new _Node(newItem, this.head);
+            return;
+        }
 
         // Otherwise, start ticking through list items
         let currNode = this.head;
@@ -66,6 +73,7 @@ class linkedList {
             // b) have the previousNode's `next` point to this new item,
             // c) have the new Node's `next` point to the current node
             previousNode.next = new _Node(newItem, currNode);
+            return;
         }
     }
 

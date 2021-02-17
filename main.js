@@ -1,36 +1,21 @@
 const linkedList = require('./linkedList');
-const _Node = require('./node');
-const { findThird } = require('./supplFuncs');
 const supplFuncs = require('./supplFuncs');
+
+// This document comprises tests of / experimentation with other functions and list methods.
 
 const main = function() {
     const SLL = new linkedList();
-    //console.log(SLL);
-
+    
     SLL.insertFirst('Apollo');
-    //console.log(SLL);
-
     SLL.insertLast('Boomer');
     SLL.insertLast('Helo');
     SLL.insertLast('Husker');
     SLL.insertLast('Starbuck');
     SLL.insertLast('Tauhida');
-    //console.log(SLL.head.next.next);
-
-    //console.log('testing here.')
-    //console.log(SLL.head);
-
     SLL.remove('Husker');
-    //console.log(SLL.head.next.next);
-
     SLL.insertBefore('Starbuck','Galaga');
-    //console.log(SLL.head.next.next);
-
     SLL.insertAfter('Helo', 'Spock');
-    //console.log(SLL.head.next.next);
-
     SLL.insertAt('bike', 2);
-    //console.log(SLL.head);
 
     return SLL;
 }
@@ -79,10 +64,21 @@ unordered.insertLast(2);
 unordered.insertLast(5);
 unordered.insertLast(7);
 unordered.insertLast(1);
-//console.log(supplFuncs.display(unordered));
+unordered.insertLast(99);
+unordered.insertLast(11);
+unordered.insertLast(8);
+//console.log(unordered);
+console.log(supplFuncs.display(unordered));
 
-//const madeOrdered = supplFuncs.sortList(unordered);
-//console.log(supplFuncs.display(madeOrdered));
+/*
+unordered.insertBefore(1, 99);
+console.log(unordered);
+console.log(supplFuncs.display(unordered));
+*/
+
+const madeOrdered = supplFuncs.sortList(unordered);
+//console.log(madeOrdered);
+console.log(supplFuncs.display(madeOrdered));
 
 
 //console.log('~~~~~~STARTING HERE~~~~~~~~~')
@@ -101,6 +97,7 @@ console.log(supplFuncs.display(reversedOutput));
 //console.log(supplFuncs.middle(unordered));
 
 
+/*
 const cyclicList = new linkedList();
 cyclicList.insertFirst('A');
 cyclicList.insertLast('B');
@@ -115,3 +112,4 @@ cyclicList.head.next.next.next.next = cyclicList.head.next;
 //console.log(supplFuncs.display(cyclicList));
 
 console.log(supplFuncs.cycleCheck(cyclicList));
+*/
